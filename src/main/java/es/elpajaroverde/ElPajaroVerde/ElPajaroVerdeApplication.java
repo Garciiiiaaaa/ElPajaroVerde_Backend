@@ -1,0 +1,13 @@
+package es.elpajaroverde.ElPajaroVerde;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ElPajaroVerdeApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ElPajaroVerdeApplication.class, args);
+	}
+
+}
