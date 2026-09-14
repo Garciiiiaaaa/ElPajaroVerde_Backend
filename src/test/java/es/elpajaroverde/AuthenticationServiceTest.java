@@ -20,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -114,7 +113,7 @@ class AuthenticationServiceTest {
 
     @Test
     void logout_validToken_rotatesKey() {
-        when(jwtUtil.isTokenExpired("valid-token")).thenReturn(false);
+       when(jwtUtil.validateToken("valid-token")).thenReturn(true);
 
         authenticationService.logout("valid-token");
         verify(jwtUtil).rotateKey();
@@ -129,7 +128,7 @@ class AuthenticationServiceTest {
 
     @Test
     void logout_expiredToken_returnsSilently() {
-        when(jwtUtil.isTokenExpired("expired-token")).thenReturn(true);
+        when(jwtUtil.validateToken("expired-token")).thenReturn(false);
 
         var response = authenticationService.logout("expired-token");
         assertEquals("Sesión cerrada", response.getMessage());

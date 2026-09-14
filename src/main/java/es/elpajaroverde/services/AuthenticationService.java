@@ -58,7 +58,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public AuthErrorResponse logout(String token) {
-        if (token == null || jwtUtil.isTokenExpired(token)) {
+        if (token == null || !jwtUtil.validateToken(token)) {
             return new AuthErrorResponse("Sesión cerrada");
         }
         jwtUtil.rotateKey();

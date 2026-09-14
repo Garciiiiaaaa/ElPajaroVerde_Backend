@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private SecretKey signingKey;
+    private volatile SecretKey signingKey;
     private final long expirationMillis;
 
     public JwtUtil(@Value("${app.jwt.secret:}") String secret,
@@ -58,7 +57,7 @@ public class JwtUtil {
     }
 
     public void rotateKey() {
-        this.signingKey = Keys.hmacShaKeyFor(Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256).getEncoded());
+        this.signingKey = Jwts.SIG.HS256.key().build();
     }
 
     private String createToken(Map<String, Object> claims, String nombreUsuario) {
@@ -85,6 +84,6 @@ public class JwtUtil {
             byte[] keyBytes = Decoders.BASE64.decode(secret);
             return Keys.hmacShaKeyFor(keyBytes);
         }
-        return Keys.hmacShaKeyFor(Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256).getEncoded());
+        return Jwts.SIG.HS256.key().build();
     }
 }

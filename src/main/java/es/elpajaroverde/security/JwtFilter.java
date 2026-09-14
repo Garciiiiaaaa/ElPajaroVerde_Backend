@@ -1,5 +1,6 @@
 package es.elpajaroverde.security;
 
+import es.elpajaroverde.config.PublicEndpoints;
 import es.elpajaroverde.services.IAuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,11 +28,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-        if (isPublicEndpoint(path, request.getMethod())) {
+        if (shouldNotFilter(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -57,8 +57,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String nombreUsuario = jwtUtil.extractUsername(token);
         if (authenticationService.buscarAdministradorPorNombre(nombreUsuario).isPresent()) {
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(nombreUsuario, null, new ArrayList<>());
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(nombreUsuario, null,
+                    new ArrayList<>());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
         } else {
@@ -71,13 +71,8 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private boolean isPublicEndpoint(String path, String method) {
-        if (path.equals("/api/v1/sesion") && "POST".equalsIgnoreCase(method)) {
-            return true;
-        }
-        if (path.equals("/api/v1/sesion") && "DELETE".equalsIgnoreCase(method)) {
-            return true;
-        }
-        return false;
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return PublicEndpoints.SESION.matches(request);
     }
 }
