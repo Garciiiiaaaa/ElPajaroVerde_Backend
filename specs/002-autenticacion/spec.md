@@ -9,7 +9,7 @@ Actualmente no existe ningún mecanismo para que el administrador acceda a los e
 ## Historias de usuario
 - H1: Como administrador, quiero iniciar sesión con mi usuario y contraseña, para poder acceder a los endpoints privados del sistema.
 - H2: Como administrador, quiero que mi sesión expire automáticamente pasado un tiempo, para reducir el riesgo si olvido cerrar sesión.
-- H3: Como administrador, quiero poder cerrar sesión manualmente desde un dispositivo concreto, para invalidar el acceso desde ese dispositivo sin afectar a mis otras sesiones activas.
+- H3: Como administrador, quiero poder cerrar sesión, para invalidar todas mis sesiones activas y requerir autenticación nuevamente.
 - H4: Como administrador, quiero que mi cuenta se bloquee temporalmente tras varios intentos fallidos consecutivos, para protegerme frente a ataques de fuerza bruta.
 
 ## Requisitos funcionales (criterios de aceptación en EARS)
@@ -26,7 +26,7 @@ Actualmente no existe ningún mecanismo para que el administrador acceda a los e
 - RF-10: SI el token recibido en `Authorization` no es un JWT válido (formato incorrecto o firma inválida), ENTONCES EL SISTEMA rechaza la petición.
 - RF-11: SI el token recibido es un JWT válido pero está expirado, ENTONCES EL SISTEMA rechaza la petición.
 - RF-12: CUANDO el administrador solicita logout aportando un token válido, EL SISTEMA invalida ese token específico, de forma que deja de dar acceso a endpoints privados aunque no haya expirado todavía. La invalidación se consigue cambiando la firma del JWT, de forma que los tokens anteriores dejan de ser verificables.
-- RF-13: CUANDO un administrador cierra sesión desde un dispositivo, EL SISTEMA mantiene activas el resto de sesiones (tokens) abiertas en otros dispositivos.
+- RF-13: CUANDO un administrador cierra sesión, EL SISTEMA invalida todas las sesiones activas rotando la clave HMAC, de forma que ningún token emitido anteriormente sigue siendo válido.
 - RF-14: EL SISTEMA nunca registra la contraseña ni ningún fragmento del token JWT en logs de aplicación (Art. 11 constitución).
 - RF-15: CUANDO un administrador solicita logout sin token, o con un token que ya está expirado, EL SISTEMA permite la operación de forma silenciosa (no devuelve error).
 
@@ -45,9 +45,7 @@ Actualmente no existe ningún mecanismo para que el administrador acceda a los e
 - Login intentado mientras la cuenta está bloqueada, incluso con credenciales correctas.
 - Login justo en el instante en que expira el bloqueo temporal (condición de carrera entre "sigue bloqueado" y "ya se desbloqueó"): se calcula al hacer login.
 - Petición a endpoint privado con token bien formado pero manipulado (firma inválida).
-- Petición a endpoint privado con token válido pero ya cerrado por logout.
-- Logout enviado sin token, o con un token que ya estaba expirado: se permite silenciosamente.
-- Logout solicitado dos veces seguidas con el mismo token.
+- Petición a endpoint privado con token válido pero ya cerrado por logout (clave rotada).
 - Login simultáneo desde múltiples dispositivos con las mismas credenciales: ambos intentos se procesan, si fallan ambos incrementan el contador.
 - Reinicio del servidor durante un bloqueo activo: el bloqueo se pierde (el contador está en memoria).
 
@@ -64,7 +62,7 @@ Actualmente no existe ningún mecanismo para que el administrador acceda a los e
 
 ## Criterios de finalización
 - Los 15 requisitos funcionales tienen al menos un test en verde (Art. 6 constitución).
-- Demo manual: login correcto devuelve token; login incorrecto lo rechaza; tras 5 fallos la cuenta se bloquea y se desbloquea al intentar login pasados los minutos configurados; un endpoint privado rechaza peticiones sin token, con token inválido o expirado, y las acepta con token válido; logout invalida solo la sesión actual, dejando el resto operativas.
+- Demo manual: login correcto devuelve token; login incorrecto lo rechaza; tras 5 fallos la cuenta se bloquea y se desbloquea al intentar login pasados los minutos configurados; un endpoint privado rechaza peticiones sin token, con token inválido o expirado, y las acepta con token válido; logout invalida todas las sesiones activas.
 
 ## Dudas abiertas
 Ninguna pendiente.

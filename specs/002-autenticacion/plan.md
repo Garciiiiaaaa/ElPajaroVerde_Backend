@@ -40,9 +40,8 @@ No se incluye `jti` (ID único) porque no hay blacklist (RF-12 se resuelve por r
 
 ### Rotación de clave en logout (RF-12, RF-13)
 
-- **Decisión:** Al hacer logout, se genera una nueva clave HMAC y se actualiza en memoria. Los tokens firmados con la clave anterior dejan de ser verificables.
-- **Justificación:** Cumple RF-12 (invalida el token específico emitido con la clave anterior) y RF-13 (otros dispositivos que hicieron login *antes* del logout siguen válidos si usaron la misma clave; los que hicieron login *después* del logout usan la nueva clave y también son válidos).
-- **Consecuencia conocida:** Si el admin hace login en dispositivo A, luego en dispositivo B (rotando la clave), y luego hace logout desde B, el token de A también queda invalidado. Esto es aceptable porque el spec prioriza simplicidad (sin blacklist) y el caso de uso típico es un único dispositivo activo.
+- **Decisión:** Al hacer logout, se genera una nueva clave HMAC y se actualiza en memoria. Todos los tokens firmados con la clave anterior dejan de ser verificables.
+- **Justificación:** Cumple RF-12 (invalida tokens emitidos con la clave anterior) y RF-13 (logout invalida todas las sesiones activas, forzando re-autenticación).
 - **Alternativa descartada:** Blacklist de tokens en BD. Descartada por el spec (fuera de alcance).
 
 ### Firma del token (RF-1)
@@ -117,8 +116,8 @@ Delega en `AdministradorRepository.findByNombreUsuario()`. Expuesto para que el 
 
 ### Múltiples sesiones (RF-4)
 
-- **Decisión:** Cada login genera un token firmado con la clave vigente. La estrategia de rotación de clave no impide múltiples sesiones: todos los tokens emitidos con la misma clave son válidos simultáneamente. Solo cuando se hace logout (rotando la clave) los tokens anteriores dejan de ser verificables.
-- **Justificación:** RF-4 pide múltiples sesiones activas. Con rotación de clave, esto funciona naturalmente: mientras no se haga logout, todos los tokens siguen válidos.
+- **Decisión:** Cada login genera un token firmado con la clave vigente. Múltiples sesiones son válidas simultáneamente mientras no se haga logout. Al hacer logout (rotar clave), todos los tokens anteriores quedan invalidados.
+- **Justificación:** RF-4 pide múltiples sesiones activas. RF-13 pide que logout invalide todas las sesiones. Ambos se cumplen: múltiples tokens funcionan hasta que el admin decide cerrar sesión.
 
 ### Bloqueo de cuenta (RF-5, RF-6, RF-7, RF-8)
 
@@ -210,8 +209,8 @@ Todas las excepciones se capturan en un `@RestControllerAdvice` global que devue
 
 | Art. | Requisito | Cómo se cumple |
 |---|---|---|
-| Art. 1 | Controller → Service → Repository | `AuthenticationController` inyecta `AuthenticationService`. Filtro JWT delega en `AuthenticationService`, nunca en Repository. |
-| Art. 2 | Controllers solo DTOs | `AuthenticationController` recibe `LoginRequest` y devuelve `LoginResponse`/`AuthErrorResponse`. Nunca entidades. |
+| Art. 1 | Controller → Service → Repository | `AuthenticationController` inyecta `IAuthenticationService`. `ConfiguracionController` inyecta `IConfiguracionService`. Filtro JWT delega en `IAuthenticationService`, nunca en Repository. |
+| Art. 2 | Controllers solo DTOs | `AuthenticationController` recibe `LoginRequest` y devuelve `LoginResponse`/`AuthErrorResponse`. `ConfiguracionController` devuelve `Configuracion` (decisión del usuario, pendiente de enmienda). |
 | Art. 3 | Mapper dedicado por par | No se necesita mapper para Login (sin conversión Entidad↔DTO). `LoginResponse` se construye en Service. |
 | Art. 4 | URLs sustantivos, verbos HTTP | `/api/v1/sesion` con POST (login) y DELETE (logout). |
 | Art. 5 | Versionado `/api/v{n}/` | Prefijo `/api/v1/` en ambos endpoints. |
@@ -221,6 +220,7 @@ Todas las excepciones se capturan en un `@RestControllerAdvice` global que devue
 | Art. 9 | JWT, público/privado | Clasificación documentada arriba. Filtro valida en cada petición privada. |
 | Art. 10 | BCrypt para contraseñas | `BCryptPasswordEncoder` como bean. Validación con `matches()`. |
 | Art. 11 | Sin datos sensibles en logs | `AuthenticationService` no loguea contraseñas ni tokens. `JwtFilter` no loguea el token. |
+| Art. 15 | Interfaces en servicios | `IAuthenticationService`, `ILoginAttemptTracker`, `IConfiguracionService`. Controllers inyectan interfaces. |
 
 ## Estrategia de tests (Art. 6 constitución)
 

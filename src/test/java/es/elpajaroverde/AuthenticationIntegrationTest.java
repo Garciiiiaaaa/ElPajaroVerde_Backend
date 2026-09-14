@@ -6,7 +6,7 @@ import es.elpajaroverde.models.Configuracion;
 import es.elpajaroverde.repositories.AdministradorRepository;
 import es.elpajaroverde.repositories.ConfiguracionRepository;
 import es.elpajaroverde.security.JwtUtil;
-import es.elpajaroverde.services.LoginAttemptTracker;
+import es.elpajaroverde.services.ILoginAttemptTracker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ class AuthenticationIntegrationTest {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private LoginAttemptTracker loginAttemptTracker;
+    private ILoginAttemptTracker loginAttemptTracker;
 
     @Autowired
     private ConfiguracionRepository configuracionRepository;

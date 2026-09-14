@@ -41,6 +41,9 @@ Art. 10 - Las contraseñas se almacenan siempre con un algoritmo de hashing segu
 Art. 11 - Los logs nunca registran: contraseñas, ningún fragmento de un token JWT, ni estos datos personales de usuarios: nombre completo, email, teléfono, DNI/NIE, dirección postal.
 *Justificación: evita exponer información sensible en ficheros de log, incluida la exposición parcial de tokens.*
 
+Art. 15 - Toda clase anotada con `@Service` debe declararse como implementación de una interfaz dedicada cuyo nombre siga la convención `I{NombreDelServicio}`. Los `@Controller` inyectan la interfaz, nunca la clase concreta.
+*Justificación: facilita el testeo con mocks, mantiene el bajo acoplamiento entre capas y permite sustituir implementaciones sin modificar los consumidores.*
+
 ## Enmiendas
 
 Art. 12 - Esta constitución solo se modifica mediante propuesta del agente y aprobación explícita del usuario.

@@ -1,6 +1,6 @@
 package es.elpajaroverde.security;
 
-import es.elpajaroverde.services.AuthenticationService;
+import es.elpajaroverde.services.IAuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final AuthenticationService authenticationService;
+    private final IAuthenticationService authenticationService;
 
-    public JwtFilter(JwtUtil jwtUtil, AuthenticationService authenticationService) {
+    public JwtFilter(JwtUtil jwtUtil, IAuthenticationService authenticationService) {
         this.jwtUtil = jwtUtil;
         this.authenticationService = authenticationService;
     }

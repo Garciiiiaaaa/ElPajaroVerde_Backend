@@ -178,3 +178,39 @@ Depende de todas las fases anteriores.
   - Test: esperar minutos de bloqueo → login correcto → permite acceso
   - RF: RF-1, RF-3, RF-6, RF-7, RF-8
   - Hecho: tests en verde
+
+## Fase 8 — Refactorización: exceptions, interfaces y Art. 1
+
+- [x] **T8.1** Modificar RF-13 en `spec.md`
+  - Cambiar "mantiene activas el resto de sesiones" por "invalida todas las sesiones activas"
+  - Actualizar H3 y casos límite
+  - Hecho: spec actualizado
+
+- [x] **T8.2** Añadir Art. 15 a `constitution.md`
+  - "Toda clase @Service debe implementar una interfaz I{Nombre}. Controllers inyectan la interfaz."
+  - Hecho: constitución actualizada
+
+- [x] **T8.3** Crear paquete `/exceptions` y mover 5 excepciones desde `/services`
+  - Mover: `CredencialesInvalidasException`, `CuentaBloqueadaException`, `TokenInvalidoException`, `TokenExpiradoException`, `SinTokenException`
+  - Actualizar imports en: `AuthenticationService`, `JwtFilter`, `GlobalExceptionHandler`, tests
+  - Hecho: paquete creado, imports actualizados
+
+- [x] **T8.4** Crear `IConfiguracionService` + `ConfiguracionService`
+  - Interfaz con `getById(Long id)`, implementación delega en `ConfiguracionRepository`
+  - Actualizar `ConfiguracionController` para inyectar `IConfiguracionService`
+  - Hecho: Art. 1 cumplido
+
+- [x] **T8.5** Crear `IAuthenticationService` + actualizar `AuthenticationService`
+  - Interfaz con `login()`, `logout()`, `buscarAdministradorPorNombre()`
+  - `AuthenticationService` implementa `IAuthenticationService`
+  - Actualizar `AuthenticationController` y `JwtFilter` para inyectar interfaz
+  - Hecho: Art. 15 cumplido
+
+- [x] **T8.6** Crear `ILoginAttemptTracker` + actualizar `LoginAttemptTracker`
+  - Interfaz con `registerFailedAttempt()`, `isBlocked()`, `clearAttempts()`, `canLogin()`
+  - `LoginAttemptTracker` implementa `ILoginAttemptTracker`
+  - Actualizar `AuthenticationService` para inyectar interfaz
+  - Hecho: Art. 15 cumplido
+
+- [x] **T8.7** Actualizar `plan.md` reflejando RF-13 y Art. 15
+  - Hecho: plan actualizado

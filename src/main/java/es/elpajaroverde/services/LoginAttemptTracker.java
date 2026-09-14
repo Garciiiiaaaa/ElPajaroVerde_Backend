@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class LoginAttemptTracker {
+public class LoginAttemptTracker implements ILoginAttemptTracker {
 
     private final ConcurrentHashMap<String, LoginAttempt> attempts = new ConcurrentHashMap<>();
 
@@ -21,6 +21,7 @@ public class LoginAttemptTracker {
         this.lockoutMinutes = lockoutMinutes;
     }
 
+    @Override
     public void registerFailedAttempt(String nombreUsuario) {
         attempts.compute(nombreUsuario, (key, existing) -> {
             if (existing == null) {
@@ -36,6 +37,7 @@ public class LoginAttemptTracker {
         });
     }
 
+    @Override
     public boolean isBlocked(String nombreUsuario) {
         LoginAttempt attempt = attempts.get(nombreUsuario);
         if (attempt == null || attempt.lockoutTime == null) {
@@ -44,6 +46,7 @@ public class LoginAttemptTracker {
         return LocalDateTime.now().isBefore(attempt.lockoutTime.plusMinutes(lockoutMinutes));
     }
 
+    @Override
     public boolean canLogin(String nombreUsuario) {
         LoginAttempt attempt = attempts.get(nombreUsuario);
         if (attempt == null) {
@@ -59,6 +62,7 @@ public class LoginAttemptTracker {
         return false;
     }
 
+    @Override
     public void clearAttempts(String nombreUsuario) {
         attempts.remove(nombreUsuario);
     }

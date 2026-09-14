@@ -1,7 +1,7 @@
 package es.elpajaroverde.controllers;
 
 import es.elpajaroverde.models.Configuracion;
-import es.elpajaroverde.repositories.ConfiguracionRepository;
+import es.elpajaroverde.services.IConfiguracionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/configuracion")
 public class ConfiguracionController {
 
-    private final ConfiguracionRepository configuracionRepository;
+    private final IConfiguracionService configuracionService;
 
-    public ConfiguracionController(ConfiguracionRepository configuracionRepository) {
-        this.configuracionRepository = configuracionRepository;
+    public ConfiguracionController(IConfiguracionService configuracionService) {
+        this.configuracionService = configuracionService;
     }
 
     @GetMapping
     public ResponseEntity<Configuracion> get() {
-        return configuracionRepository.findById(1L)
+        return configuracionService.getById(1L)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.noContent().build());
     }

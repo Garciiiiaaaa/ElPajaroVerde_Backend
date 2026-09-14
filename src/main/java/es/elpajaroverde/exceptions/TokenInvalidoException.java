@@ -1,4 +1,4 @@
-package es.elpajaroverde.services;
+package es.elpajaroverde.exceptions;
 
 public class TokenInvalidoException extends RuntimeException {
 

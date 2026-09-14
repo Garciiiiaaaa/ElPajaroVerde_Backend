@@ -1,11 +1,11 @@
 package es.elpajaroverde.config;
 
 import es.elpajaroverde.dtos.AuthErrorResponse;
-import es.elpajaroverde.services.CredencialesInvalidasException;
-import es.elpajaroverde.services.CuentaBloqueadaException;
-import es.elpajaroverde.services.SinTokenException;
-import es.elpajaroverde.services.TokenExpiradoException;
-import es.elpajaroverde.services.TokenInvalidoException;
+import es.elpajaroverde.exceptions.CredencialesInvalidasException;
+import es.elpajaroverde.exceptions.CuentaBloqueadaException;
+import es.elpajaroverde.exceptions.SinTokenException;
+import es.elpajaroverde.exceptions.TokenExpiradoException;
+import es.elpajaroverde.exceptions.TokenInvalidoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

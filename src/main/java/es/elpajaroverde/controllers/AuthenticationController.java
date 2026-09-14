@@ -3,7 +3,7 @@ package es.elpajaroverde.controllers;
 import es.elpajaroverde.dtos.AuthErrorResponse;
 import es.elpajaroverde.dtos.LoginRequest;
 import es.elpajaroverde.dtos.LoginResponse;
-import es.elpajaroverde.services.AuthenticationService;
+import es.elpajaroverde.services.IAuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/sesion")
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    private final IAuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(IAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 

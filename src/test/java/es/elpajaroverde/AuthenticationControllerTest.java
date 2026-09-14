@@ -5,8 +5,8 @@ import es.elpajaroverde.config.GlobalExceptionHandler;
 import es.elpajaroverde.controllers.AuthenticationController;
 import es.elpajaroverde.dtos.LoginRequest;
 import es.elpajaroverde.dtos.LoginResponse;
-import es.elpajaroverde.services.AuthenticationService;
-import es.elpajaroverde.services.CredencialesInvalidasException;
+import es.elpajaroverde.exceptions.CredencialesInvalidasException;
+import es.elpajaroverde.services.IAuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ class AuthenticationControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
-    private AuthenticationService authenticationService;
+    private IAuthenticationService authenticationService;
 
     private MockMvc mockMvc;
 

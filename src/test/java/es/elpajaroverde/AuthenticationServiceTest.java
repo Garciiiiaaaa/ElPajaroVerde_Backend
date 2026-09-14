@@ -2,13 +2,13 @@ package es.elpajaroverde;
 
 import es.elpajaroverde.dtos.LoginRequest;
 import es.elpajaroverde.dtos.LoginResponse;
+import es.elpajaroverde.exceptions.CredencialesInvalidasException;
+import es.elpajaroverde.exceptions.CuentaBloqueadaException;
 import es.elpajaroverde.models.Administrador;
 import es.elpajaroverde.repositories.AdministradorRepository;
 import es.elpajaroverde.security.JwtUtil;
 import es.elpajaroverde.services.AuthenticationService;
-import es.elpajaroverde.services.CredencialesInvalidasException;
-import es.elpajaroverde.services.CuentaBloqueadaException;
-import es.elpajaroverde.services.LoginAttemptTracker;
+import es.elpajaroverde.services.ILoginAttemptTracker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ class AuthenticationServiceTest {
     private JwtUtil jwtUtil;
 
     @Mock
-    private LoginAttemptTracker loginAttemptTracker;
+    private ILoginAttemptTracker loginAttemptTracker;
 
     @Mock
     private PasswordEncoder passwordEncoder;

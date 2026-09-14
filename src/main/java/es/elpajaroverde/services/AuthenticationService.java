@@ -3,6 +3,8 @@ package es.elpajaroverde.services;
 import es.elpajaroverde.dtos.AuthErrorResponse;
 import es.elpajaroverde.dtos.LoginRequest;
 import es.elpajaroverde.dtos.LoginResponse;
+import es.elpajaroverde.exceptions.CredencialesInvalidasException;
+import es.elpajaroverde.exceptions.CuentaBloqueadaException;
 import es.elpajaroverde.models.Administrador;
 import es.elpajaroverde.repositories.AdministradorRepository;
 import es.elpajaroverde.security.JwtUtil;
@@ -12,16 +14,16 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
 
     private final AdministradorRepository administradorRepository;
     private final JwtUtil jwtUtil;
-    private final LoginAttemptTracker loginAttemptTracker;
+    private final ILoginAttemptTracker loginAttemptTracker;
     private final PasswordEncoder passwordEncoder;
 
     public AuthenticationService(AdministradorRepository administradorRepository,
                                  JwtUtil jwtUtil,
-                                 LoginAttemptTracker loginAttemptTracker,
+                                 ILoginAttemptTracker loginAttemptTracker,
                                  PasswordEncoder passwordEncoder) {
         this.administradorRepository = administradorRepository;
         this.jwtUtil = jwtUtil;
@@ -29,6 +31,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     public LoginResponse login(LoginRequest request) {
         String nombreUsuario = request.getNombreUsuario();
 
@@ -53,6 +56,7 @@ public class AuthenticationService {
         return new LoginResponse(token);
     }
 
+    @Override
     public AuthErrorResponse logout(String token) {
         if (token == null || jwtUtil.isTokenExpired(token)) {
             return new AuthErrorResponse("Sesión cerrada");
@@ -61,6 +65,7 @@ public class AuthenticationService {
         return new AuthErrorResponse("Sesión cerrada");
     }
 
+    @Override
     public Optional<Administrador> buscarAdministradorPorNombre(String nombreUsuario) {
         return administradorRepository.findByNombreUsuario(nombreUsuario);
     }
