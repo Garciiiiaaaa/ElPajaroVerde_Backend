@@ -6,12 +6,12 @@ Para la gestión y administración de las reservas y usuarios de una casa rural.
 
 ## Cómo construir y ejecutar
 - Requiere: JDK 21
-- Instalar dependencias: `.\mvnw clean install`
-- Levantar en local: `.\mvnw spring-boot:run`
-- Tests: `.\mvnw test` (unitarios e integración se ejecutan juntos, sin comandos separados)
+- Instalar dependencias: `./mvnw clean install`
+- Levantar en local: `./mvnw spring-boot:run`
+- Tests: `./mvnw test` (unitarios e integración se ejecutan juntos, sin comandos separados)
 
 ## Variables de entorno
-- `DB_URL` (default: `jdbc:mysql://localhost:3306/casarural`)
+- `DB_URL` (default: `jdbc:mysql://localhost:3306/elpajaroverde`)
 - `DB_USERNAME` (default: `root`)
 - `DB_PASSWORD` (default: vacío)
 - `APP_BASE_URL` (default: `http://localhost:8080`)
