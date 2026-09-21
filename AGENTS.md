@@ -12,7 +12,7 @@ Para la gestión y administración de las reservas y usuarios de una casa rural.
 
 ## Variables de entorno
 - `DB_URL` (default: `jdbc:mysql://localhost:3306/elpajaroverde`)
-- `DB_USERNAME` (default: `root`)
+- `DB_USERNAME` (default: `root`)           
 - `DB_PASSWORD` (default: vacío)
 - `APP_BASE_URL` (default: `http://localhost:8080`)
 - Todas tienen valor por defecto para desarrollo local; no es obligatorio definirlas a mano salvo que quieras sobreescribirlas.

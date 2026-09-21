@@ -210,7 +210,7 @@ Todas las excepciones se capturan en un `@RestControllerAdvice` global que devue
 | Art. | Requisito | Cómo se cumple |
 |---|---|---|
 | Art. 1 | Controller → Service → Repository | `AuthenticationController` inyecta `IAuthenticationService`. `ConfiguracionController` inyecta `IConfiguracionService`. Filtro JWT delega en `IAuthenticationService`, nunca en Repository. |
-| Art. 2 | Controllers solo DTOs | `AuthenticationController` recibe `LoginRequest` y devuelve `LoginResponse`/`AuthErrorResponse`. `ConfiguracionController` devuelve `Configuracion` (decisión del usuario, pendiente de enmienda). |
+| Art. 2 | Controllers solo DTOs | `AuthenticationController` recibe `LoginRequest` y devuelve `LoginResponse`/`AuthErrorResponse`. `ConfiguracionController` devuelve `ConfiguracionResponse`/`ConfiguracionRequest` (DTOs) — enmienda resuelta en spec 003, RF-34/35. |
 | Art. 3 | Mapper dedicado por par | No se necesita mapper para Login (sin conversión Entidad↔DTO). `LoginResponse` se construye en Service. |
 | Art. 4 | URLs sustantivos, verbos HTTP | `/api/v1/sesion` con POST (login) y DELETE (logout). |
 | Art. 5 | Versionado `/api/v{n}/` | Prefijo `/api/v1/` en ambos endpoints. |

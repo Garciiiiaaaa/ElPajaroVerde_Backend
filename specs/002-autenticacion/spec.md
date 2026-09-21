@@ -25,7 +25,7 @@ Actualmente no existe ningún mecanismo para que el administrador acceda a los e
 - RF-9: CUANDO llega una petición a un endpoint privado sin cabecera `Authorization`, EL SISTEMA rechaza la petición.
 - RF-10: SI el token recibido en `Authorization` no es un JWT válido (formato incorrecto o firma inválida), ENTONCES EL SISTEMA rechaza la petición.
 - RF-11: SI el token recibido es un JWT válido pero está expirado, ENTONCES EL SISTEMA rechaza la petición.
-- RF-12: CUANDO el administrador solicita logout aportando un token válido, EL SISTEMA invalida ese token específico, de forma que deja de dar acceso a endpoints privados aunque no haya expirado todavía. La invalidación se consigue cambiando la firma del JWT, de forma que los tokens anteriores dejan de ser verificables.
+- RF-12: CUANDO el administrador solicita logout aportando un token válido, EL SISTEMA invalida todos los tokens, de forma que deja de dar acceso a endpoints privados aunque no haya expirado todavía. La invalidación se consigue cambiando la firma del JWT, de forma que los tokens anteriores dejan de ser verificables.
 - RF-13: CUANDO un administrador cierra sesión, EL SISTEMA invalida todas las sesiones activas rotando la clave HMAC, de forma que ningún token emitido anteriormente sigue siendo válido.
 - RF-14: EL SISTEMA nunca registra la contraseña ni ningún fragmento del token JWT en logs de aplicación (Art. 11 constitución).
 - RF-15: CUANDO un administrador solicita logout sin token, o con un token que ya está expirado, EL SISTEMA permite la operación de forma silenciosa (no devuelve error).
