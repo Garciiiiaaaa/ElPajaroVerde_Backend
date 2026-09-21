@@ -1,4 +1,4 @@
-package es.elpajaroverde.services;
+package es.elpajaroverde.services.interfaces;
 
 public interface ILoginAttemptTracker {
 

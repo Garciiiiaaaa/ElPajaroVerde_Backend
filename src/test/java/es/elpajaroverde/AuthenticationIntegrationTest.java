@@ -5,7 +5,8 @@ import es.elpajaroverde.models.Administrador;
 import es.elpajaroverde.models.Configuracion;
 import es.elpajaroverde.repositories.AdministradorRepository;
 import es.elpajaroverde.repositories.ConfiguracionRepository;
-import es.elpajaroverde.services.ILoginAttemptTracker;
+import es.elpajaroverde.services.interfaces.ILoginAttemptTracker;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package es.elpajaroverde.services;
+package es.elpajaroverde.services.interfaces;
 
 import es.elpajaroverde.dtos.AuthErrorResponse;
 import es.elpajaroverde.dtos.LoginRequest;

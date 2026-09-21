@@ -8,7 +8,8 @@ import es.elpajaroverde.models.Administrador;
 import es.elpajaroverde.repositories.AdministradorRepository;
 import es.elpajaroverde.security.JwtUtil;
 import es.elpajaroverde.services.AuthenticationService;
-import es.elpajaroverde.services.ILoginAttemptTracker;
+import es.elpajaroverde.services.interfaces.ILoginAttemptTracker;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

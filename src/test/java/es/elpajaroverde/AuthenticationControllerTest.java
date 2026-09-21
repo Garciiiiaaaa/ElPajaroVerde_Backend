@@ -6,7 +6,8 @@ import es.elpajaroverde.controllers.AuthenticationController;
 import es.elpajaroverde.dtos.LoginRequest;
 import es.elpajaroverde.dtos.LoginResponse;
 import es.elpajaroverde.exceptions.CredencialesInvalidasException;
-import es.elpajaroverde.services.IAuthenticationService;
+import es.elpajaroverde.services.interfaces.IAuthenticationService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

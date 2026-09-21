@@ -2,6 +2,8 @@ package es.elpajaroverde.services;
 
 import es.elpajaroverde.models.Configuracion;
 import es.elpajaroverde.repositories.ConfiguracionRepository;
+import es.elpajaroverde.services.interfaces.IConfiguracionService;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

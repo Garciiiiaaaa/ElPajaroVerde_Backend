@@ -3,7 +3,7 @@ package es.elpajaroverde.controllers;
 import es.elpajaroverde.dtos.AuthErrorResponse;
 import es.elpajaroverde.dtos.LoginRequest;
 import es.elpajaroverde.dtos.LoginResponse;
-import es.elpajaroverde.services.IAuthenticationService;
+import es.elpajaroverde.services.interfaces.IAuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

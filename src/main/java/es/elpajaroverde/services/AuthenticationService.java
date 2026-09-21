@@ -8,6 +8,9 @@ import es.elpajaroverde.exceptions.CuentaBloqueadaException;
 import es.elpajaroverde.models.Administrador;
 import es.elpajaroverde.repositories.AdministradorRepository;
 import es.elpajaroverde.security.JwtUtil;
+import es.elpajaroverde.services.interfaces.IAuthenticationService;
+import es.elpajaroverde.services.interfaces.ILoginAttemptTracker;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

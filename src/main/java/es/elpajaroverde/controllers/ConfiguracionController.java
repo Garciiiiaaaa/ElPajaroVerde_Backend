@@ -1,7 +1,8 @@
 package es.elpajaroverde.controllers;
 
 import es.elpajaroverde.models.Configuracion;
-import es.elpajaroverde.services.IConfiguracionService;
+import es.elpajaroverde.services.interfaces.IConfiguracionService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
