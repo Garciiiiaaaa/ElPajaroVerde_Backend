@@ -12,17 +12,17 @@ Decisiones de implementación asumidas (aprobadas por el usuario):
 
 Sin dependencias. Base para DTOs, services y manejo de errores.
 
-- [ ] **T1.1** Crear `ReservaReglas` en `services/` (constante de negocio)
+- [x] **T1.1** Crear `ReservaReglas` en `services/` (constante de negocio)
   - `public static final int MAX_HUESPEDES = 10` (RF-12, decisión de producto)
   - Es la fuente única: la referencian `ReservaRequest`/`ReservaUpdateRequest` (`@Max`) y `ReservaService`
   - Hecho: compila; la constante existe y es importable desde `dtos/` y `services/`
 
-- [ ] **T1.2** Crear excepciones de negocio en `exceptions/`
+- [x] **T1.2** Crear excepciones de negocio en `exceptions/`
   - Crear: `EntidadNoEncontradaException` (404), `SolapamientoReservaException` (409), `CorreoDuplicadoException` (409), `FechasInvalidasException` (400), `DuracionEstanciaInvalidaException` (400), `NumeroHuespedesInvalidoException` (400), `OcultacionInvalidaException` (400), `ConfiguracionInvalidaException` (400), `ReferenciaInconsistenteException` (400)
   - Cada una extiende `RuntimeException` con constructor que recibe `message`
   - Hecho: todas compilan con sus mensajes en español
 
-- [ ] **T1.3** Ampliar `GlobalExceptionHandler` en `config/`
+- [x] **T1.3** Ampliar `GlobalExceptionHandler` en `config/`
   - Depende de: T1.2
   - Añadir un `@ExceptionHandler` por cada excepción de T1.2 devolviendo `AuthErrorResponse(message)` con su HTTP status (404/409/400 según tabla del plan)
   - Hecho: los 9 tipos se mapean con el status correcto; los handlers de autenticación existentes no se tocan
