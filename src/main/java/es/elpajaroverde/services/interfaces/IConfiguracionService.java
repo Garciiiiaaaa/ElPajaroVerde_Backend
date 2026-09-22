@@ -1,10 +1,11 @@
 package es.elpajaroverde.services.interfaces;
 
-import es.elpajaroverde.models.Configuracion;
-
-import java.util.Optional;
+import es.elpajaroverde.dtos.ConfiguracionRequest;
+import es.elpajaroverde.dtos.ConfiguracionResponse;
 
 public interface IConfiguracionService {
 
-    Optional<Configuracion> getById(Long id);
+    ConfiguracionResponse obtener();
+
+    ConfiguracionResponse actualizar(ConfiguracionRequest request);
 }

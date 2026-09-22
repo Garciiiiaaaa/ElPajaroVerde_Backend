@@ -68,6 +68,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return PublicEndpoints.SESION.matches(request);
+        return PublicEndpoints.SIN_TOKEN.matches(request);
     }
 }

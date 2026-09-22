@@ -182,14 +182,14 @@ Depende de Fase 3 (T3.4) y Fase 4 (T4.4). Base para el resto de services.
 
 Depende de Fase 3 (T3.5), Fase 4 (T4.5) y Fase 5 (T5.2). RF-34 a RF-37.
 
-- [ ] **T6.1** Ampliar `IConfiguracionService` + `ConfiguracionService`
+- [x] **T6.1** Ampliar `IConfiguracionService` + `ConfiguracionService`
   - Depende de: T3.5, T4.5, T5.2
   - `obtener() → ConfiguracionResponse`: `findById(1L)` → mapper; si no existe → `EntidadNoEncontradaException` (RF-34)
   - `actualizar(ConfiguracionRequest) → ConfiguracionResponse` (RF-35, RF-36, RF-37): PATCH parcial (solo campos presentes); merge sobre la fila actual; validar sobre valores resultantes (`estanciaMinima ≥ 1`, `estanciaMaxima ≥ 1`, `precioNoche > 0`, `estanciaMinima ≤ estanciaMaxima`) → `ConfiguracionInvalidaException`; persistir con `findByIdWithLock`; auditar MODIFICAR; no toca reservas existentes
   - El `getById(Long)` original se reemplaza por `obtener()` (búsqueda de referencias de `getById`)
   - Hecho: compila; no queda referencia a `getById` fuera del service
 
-- [ ] **T6.2** Refactorizar `ConfiguracionController`
+- [x] **T6.2** Refactorizar `ConfiguracionController`
   - Depende de: T6.1
   - GET `/api/v1/configuracion` → `ResponseEntity<ConfiguracionResponse>` (404 si no existe; sustituye `noContent` y la entidad JPA, Art. 2)
   - Añadir PATCH `/api/v1/configuracion` → `ResponseEntity<ConfiguracionResponse>` con `@Valid ConfiguracionRequest`
@@ -199,13 +199,13 @@ Depende de Fase 3 (T3.5), Fase 4 (T4.5) y Fase 5 (T5.2). RF-34 a RF-37.
 
 Depende de Fase 4 (T4.1) y Fase 3 (T3.6). RF-1, RF-2.
 
-- [ ] **T7.1** Crear `IDisponibilidadService` + `DisponibilidadService`
+- [x] **T7.1** Crear `IDisponibilidadService` + `DisponibilidadService`
   - `obtenerFechasOcupadas() → FechasOcupadasResponse` (RF-1, RF-2)
   - Consulta `findByEstadoInAndFechaSalidaGreaterThanEqual([PENDIENTE, CONFIRMADA], LocalDate.now())` (zona horaria local del servidor, RNF)
   - Mapear con `DisponibilidadMapper` (solo `fechaEntrada`/`fechaSalida`)
   - Hecho: compila; la query excluye CANCELADA y reservas pasadas
 
-- [ ] **T7.2** Crear `DisponibilidadController`
+- [x] **T7.2** Crear `DisponibilidadController`
   - Depende de: T7.1
   - `@GetMapping("/api/v1/disponibilidad")` → `ResponseEntity<FechasOcupadasResponse>`
   - Será público una vez ampliado `PublicEndpoints` (T8.3)
@@ -215,7 +215,7 @@ Depende de Fase 4 (T4.1) y Fase 3 (T3.6). RF-1, RF-2.
 
 Depende de Fase 4 (T4.2, T4.3), Fase 3 (T3.2, T3.3) y Fase 5 (T5.2). RF-3 a RF-7, RF-29, RF-31.
 
-- [ ] **T8.1** Crear `IMensajeService` + `MensajeService`
+- [x] **T8.1** Crear `IMensajeService` + `MensajeService`
   - `enviar(MensajeRequest) → MensajeResponse` (RF-3, RF-4, RF-5, RF-6, RF-31):
     - Buscar por `findByCorreoIgnoreCase(correo)` (RF-4)
     - No existe → crear `Usuario` con los datos aportados; si faltan nombre/apellido → `"Sin nombre"`/`"Sin apellido"` (RF-5, NOT NULL spec 001); auditar CREAR con `admin=null` (RF-31)
@@ -225,14 +225,14 @@ Depende de Fase 4 (T4.2, T4.3), Fase 3 (T3.2, T3.3) y Fase 5 (T5.2). RF-3 a RF-7
   - Sin endpoints de modificar/eliminar (RF-7)
   - Hecho: compila
 
-- [ ] **T8.2** Crear `MensajeController`
+- [x] **T8.2** Crear `MensajeController`
   - Depende de: T8.1
   - `POST /api/v1/mensajes` (público) → `ResponseEntity<MensajeResponse>` con HTTP 201 (RF-3, RF-6)
   - `GET /api/v1/mensajes` (privado) → `ResponseEntity<Page<MensajeResponse>>` (RF-29)
   - Sin rutas de modificar/eliminar (RF-7)
   - Hecho: compila; solo existen POST y GET
 
-- [ ] **T8.3** Ampliar `PublicEndpoints` en `config/`
+- [x] **T8.3** Ampliar `PublicEndpoints` en `config/`
   - Depende de: T7.2, T8.2
   - Añadir como públicos: `GET /api/v1/disponibilidad` y `POST /api/v1/mensajes`, combinados con `SESION` vía `RequestMatchers.anyOf` (o matchers adicionales equivalentes)
   - Hecho: los 2 endpoints públicos + sesión funcionan sin token; el resto sigue exigiendo JWT
@@ -241,14 +241,14 @@ Depende de Fase 4 (T4.2, T4.3), Fase 3 (T3.2, T3.3) y Fase 5 (T5.2). RF-3 a RF-7
 
 Depende de Fase 4 (T4.2), Fase 3 (T3.2) y Fase 5 (T5.2). RF-22 a RF-28.
 
-- [ ] **T9.1** Crear `IUsuarioService` + `UsuarioService`
+- [x] **T9.1** Crear `IUsuarioService` + `UsuarioService`
   - `crear(UsuarioRequest) → UsuarioResponse` (RF-22, RF-23): unicidad case-insensitive vía `findByCorreoIgnoreCase` → `CorreoDuplicadoException` (409); auditar CREAR
   - `modificar(id, UsuarioUpdateRequest) → UsuarioResponse` (RF-24, RF-25): PATCH parcial; unicidad del nuevo correo excluyendo al propio usuario (comprobación por id); auditar MODIFICAR
   - `cambiarVisible(id, UsuarioVisibleRequest)` (RF-26, RF-27): sin restricciones; no propaga la visibilidad a reservas ni mensajes; auditar ELIMINAR_OCULTAR en ambos sentidos
   - `listar(nombre, apellido, correo, visible, Pageable) → Page<UsuarioResponse>` (RF-28): Specification; si `visible` no viene → `visible=true` por defecto; orden `id` ASC
   - Hecho: compila; unicidad y visibilidad con la semántica correcta
 
-- [ ] **T9.2** Crear `UsuarioController`
+- [x] **T9.2** Crear `UsuarioController`
   - Depende de: T9.1
   - `POST /api/v1/usuarios` (RF-22), `PATCH /api/v1/usuarios/{id}` (RF-24), `PATCH /api/v1/usuarios/{id}/visible` (RF-26), `GET /api/v1/usuarios` paginado (RF-28)
   - Todos privados (JWT)
@@ -258,7 +258,7 @@ Depende de Fase 4 (T4.2), Fase 3 (T3.2) y Fase 5 (T5.2). RF-22 a RF-28.
 
 Depende de Fase 4 (T4.1, T4.2, T4.5), Fase 3 (T3.1, T3.2), Fase 5 (T5.2) y Fase 1 (T1.1). RF-8 a RF-21.
 
-- [ ] **T10.1** Crear `IReservaService` + `ReservaService`
+- [x] **T10.1** Crear `IReservaService` + `ReservaService`
   - Métodos `@Transactional`; adquirir `findByIdWithLock()` (lock pesimista fila singleton de Configuración) **antes** de las comprobaciones de solapamiento en crear/modificar/cambiarEstado/cambiarVisible (RF-13, caso límite de dos simultáneas)
   - `crear(ReservaRequest) → ReservaResponse` (RF-8..RF-14):
     - Resolver usuario: `usuarioId` (404 si no existe); inline (crear/validar con unicidad case-insensitive, auditar CREAR del Usuario, RF-8/RF-23); ninguno → null
@@ -280,11 +280,17 @@ Depende de Fase 4 (T4.1, T4.2, T4.5), Fase 3 (T3.1, T3.2), Fase 5 (T5.2) y Fase 
   - `listar(estado, visible, usuarioId, fechaDesde, fechaHasta, Pageable) → Page<ReservaResponse>` (RF-21): Specification, rango sobre `fechaEntrada`; `visible=true` por defecto con override por filtro; orden `fechaEntrada` ASC
   - Hecho: compila; los casos límite del plan están cubiertos en el flujo
 
-- [ ] **T10.2** Crear `ReservaController`
+- [x] **T10.2** Crear `ReservaController`
   - Depende de: T10.1
   - `POST /api/v1/reservas` (RF-8), `PATCH /api/v1/reservas/{id}` (RF-15), `PATCH /api/v1/reservas/{id}/estado` (RF-17), `PATCH /api/v1/reservas/{id}/visible` (RF-19), `GET /api/v1/reservas` paginado (RF-21)
   - Todos privados (JWT)
   - Hecho: compila; verbos y rutas según Art. 4, Art. 5
+
+- [x] **T10.3** Crear `AuditoriaController`
+  - Depende de: T5.2
+  - `GET /api/v1/auditoria` → `ResponseEntity<Page<AuditoriaResponse>>` (RF-33) con filtros `entidadAfectada`, `entidadId`, `tipoAccion`, rango de fechas y paginado
+  - Solo GET: sin endpoints de creación/edición/borrado (RF-32); privado (JWT)
+  - Hecho: compila; devuelve solo DTOs (Art. 2)
 
 ## Fase 11 — Tests
 
