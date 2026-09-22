@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/v1/auditoria")
 public class AuditoriaController {
 
-    private static final int TAMANIO_PAGINA_POR_DEFECTO = 20;
     private static final int TAMANIO_PAGINA_MAXIMO = 100;
 
     private final IAuditoriaService auditoriaService;

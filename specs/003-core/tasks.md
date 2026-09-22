@@ -296,81 +296,81 @@ Depende de Fase 4 (T4.1, T4.2, T4.5), Fase 3 (T3.1, T3.2), Fase 5 (T5.2) y Fase 
 
 Depende de todas las fases anteriores. Paquete `src/test/java/es/elpajaroverde/` (perfil `test`, H2). RF-1 a RF-38 cubiertos (Art. 6).
 
-- [ ] **T11.1** Preparar seed de `Configuracion(id=1)` para tests de integración
+- [x] **T11.1** Preparar seed de `Configuracion(id=1)` para tests de integración
   - Asegurar que los integration tests que necesitan precio/lock disponen de la fila singleton (setup o script SQL de test)
   - Hecho: `ConfiguracionIntegrationTest`, `ReservaIntegrationTest` y demás en los que aplique arrancan con la fila presente
 
-- [ ] **T11.2** Crear `ConfiguracionServiceTest` (unitario, Mockito, RF-35, RF-36, RF-37)
+- [x] **T11.2** Crear `ConfiguracionServiceTest` (unitario, Mockito, RF-35, RF-36, RF-37)
   - PATCH parcial aplica solo campos presentes; rechaza `min > max`; rechaza límites no positivos; acepta `min = max`; no recalcula reservas previas
   - Hecho: tests en verde
 
-- [ ] **T11.3** Crear `AuditoriaServiceTest` (unitario, RF-33)
+- [x] **T11.3** Crear `AuditoriaServiceTest` (unitario, RF-33)
   - `registrar` produce la plantilla `<Acción> de <entidad> (id=<entidadId>)` sin datos personales; `listar` filtra por entidad/tipo/rango y ordena `fecha` DESC
   - Hecho: tests en verde
 
-- [ ] **T11.4** Crear `DisponibilidadServiceTest` (unitario, RF-1, RF-2)
+- [x] **T11.4** Crear `DisponibilidadServiceTest` (unitario, RF-1, RF-2)
   - Solo devuelve PENDIENTE/CONFIRMADA futuras; excluye CANCELADA y pasadas; no expone más campos (privacidad RNF)
   - Hecho: tests en verde
 
-- [ ] **T11.5** Crear `MensajeServiceTest` (unitario, RF-3, RF-4, RF-5, RF-6, RF-31)
+- [x] **T11.5** Crear `MensajeServiceTest` (unitario, RF-3, RF-4, RF-5, RF-6, RF-31)
   - Asunto por defecto `Consulta`; dedupe case-insensitive; usuario oculto reutilizado sin modificar; creación de usuario con placeholders y auditoría `admin=null`
   - Hecho: tests en verde
 
-- [ ] **T11.6** Crear `UsuarioServiceTest` (unitario, RF-22 a RF-27)
+- [x] **T11.6** Crear `UsuarioServiceTest` (unitario, RF-22 a RF-27)
   - Unicidad case-insensitive en crear y modificar; modificar excluye self; visible libre sin cascada
   - Hecho: tests en verde
 
-- [ ] **T11.7** Crear `ReservaServiceTest` (unitario, RF-8 a RF-20) con los casos límite de la spec
+- [x] **T11.7** Crear `ReservaServiceTest` (unitario, RF-8 a RF-20) con los casos límite de la spec
   - Creación (usuario id/inline/ninguno, precio, duración, huéspedes 1 y 10, solapamiento, retroactivas, estado CANCELADA inicial); modificación (PATCH parcial, RF-11 solo si cambia duración, solape consigo mismo permitido, `usuario:null` desvincula); estado (RF-18 sin recálculo); visible (RF-19/RF-20); auditoría por acción
   - Hecho: tests en verde
 
-- [ ] **T11.8** Crear `ConfiguracionIntegrationTest` (RF-34, RF-35, RF-36, RF-37)
+- [x] **T11.8** Crear `ConfiguracionIntegrationTest` (RF-34, RF-35, RF-36, RF-37)
   - GET y PATCH sobre BD H2 persistente; 404 si no existe la fila; validación de la regla cruzada
   - Depende de: T11.1
   - Hecho: tests en verde
 
-- [ ] **T11.9** Crear `AuditoriaIntegrationTest` (RF-30, RF-31, RF-32, RF-33)
+- [x] **T11.9** Crear `AuditoriaIntegrationTest` (RF-30, RF-31, RF-32, RF-33)
   - Registro automático por cada acción (con admin autenticado y `admin=null` en mensaje público); sin endpoints de escritura; listado con filtros
   - Hecho: tests en verde
 
-- [ ] **T11.10** Crear `MensajeContactoIntegrationTest` (RF-3, RF-4, RF-5, RF-6, RF-29, RF-31)
+- [x] **T11.10** Crear `MensajeContactoIntegrationTest` (RF-3, RF-4, RF-5, RF-6, RF-29, RF-31)
   - Flujo público crea/reutiliza usuario; listado privado filtrado por `usuarioId` y rango
   - Hecho: tests en verde
 
-- [ ] **T11.11** Crear `UsuarioIntegrationTest` (RF-22 a RF-28)
+- [x] **T11.11** Crear `UsuarioIntegrationTest` (RF-22 a RF-28)
   - Unicidad case-insensitive y visibilidad sobre BD real (H2); filtros y paginación
   - Hecho: tests en verde
 
-- [ ] **T11.12** Crear `ReservaIntegrationTest` (RF-8..RF-21)
+- [x] **T11.12** Crear `ReservaIntegrationTest` (RF-8..RF-21)
   - Flujo completo sobre BD real (H2) + caso límite de dos peticiones simultáneas de creación/reactivación → solo una prospera (RF-13, RF-18)
   - Depende de: T11.1
   - Hecho: tests en verde
 
-- [ ] **T11.13** Crear `DisponibilidadControllerTest` (MockMvc, RF-1, RF-2)
+- [x] **T11.13** Crear `DisponibilidadControllerTest` (MockMvc, RF-1, RF-2)
   - GET público sin token → 200; respuesta con solo las fechas (sin datos sensibles)
   - Depende de: T8.3
   - Hecho: tests en verde
 
-- [ ] **T11.14** Crear `MensajeControllerTest` (MockMvc, RF-3, RF-6, RF-7, RF-29)
+- [x] **T11.14** Crear `MensajeControllerTest` (MockMvc, RF-3, RF-6, RF-7, RF-29)
   - POST público sin token → 201; validación 400; GET privado requiere token (401); ausencia de rutas de modificar/eliminar (404)
   - Hecho: tests en verde
 
-- [ ] **T11.15** Crear `UsuarioControllerTest` (MockMvc, RF-22, RF-24, RF-26, RF-28)
+- [x] **T11.15** Crear `UsuarioControllerTest` (MockMvc, RF-22, RF-24, RF-26, RF-28)
   - Verbos y rutas correctos; 409 por correo duplicado; 401 sin token
   - Hecho: tests en verde
 
-- [ ] **T11.16** Crear `AuditoriaControllerTest` (MockMvc, RF-32, RF-33)
+- [x] **T11.16** Crear `AuditoriaControllerTest` (MockMvc, RF-32, RF-33)
   - Solo GET; filtros y paginación; 401 sin token
   - Hecho: tests en verde
 
-- [ ] **T11.17** Crear `ConfiguracionControllerTest` (MockMvc, RF-34, RF-35, RF-36)
+- [x] **T11.17** Crear `ConfiguracionControllerTest` (MockMvc, RF-34, RF-35, RF-36)
   - GET → 200 con DTO; GET sin fila → 404; PATCH → 400 por Bean Validation y por regla cruzada
   - Hecho: tests en verde
 
-- [ ] **T11.18** Crear `ReservaControllerTest` (MockMvc, RF-8, RF-15, RF-17, RF-19, RF-21)
+- [x] **T11.18** Crear `ReservaControllerTest` (MockMvc, RF-8, RF-15, RF-17, RF-19, RF-21)
   - Verbos y rutas; 404/409/400 según el caso; 401 sin token; página fuera de rango → lista vacía (caso límite)
   - Hecho: tests en verde
 
-- [ ] **T11.19** Verificación final
+- [x] **T11.19** Verificación final
   - `./mvnw test` completo en verde; los 38 RF tienen al menos un test (Art. 6); sin warnings de compilación en `./mvnw clean install`
   - Hecho: suite completa en verde y RF-1 a RF-38 cubiertos

@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
 
-    private static final int TAMANIO_PAGINA_POR_DEFECTO = 20;
     private static final int TAMANIO_PAGINA_MAXIMO = 100;
 
     private final IUsuarioService usuarioService;

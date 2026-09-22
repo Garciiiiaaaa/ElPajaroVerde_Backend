@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/v1/mensajes")
 public class MensajeController {
 
-    private static final int TAMANIO_PAGINA_POR_DEFECTO = 20;
     private static final int TAMANIO_PAGINA_MAXIMO = 100;
 
     private final IMensajeService mensajeService;

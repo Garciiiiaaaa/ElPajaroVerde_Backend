@@ -29,7 +29,6 @@ import java.time.LocalDate;
 @RequestMapping("/api/v1/reservas")
 public class ReservaController {
 
-    private static final int TAMANIO_PAGINA_POR_DEFECTO = 20;
     private static final int TAMANIO_PAGINA_MAXIMO = 100;
 
     private final IReservaService reservaService;
