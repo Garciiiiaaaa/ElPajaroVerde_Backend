@@ -109,28 +109,28 @@ Depende de Fase 1 (T1.1 para `ReservaRequest`). Resto independientes entre sí.
 
 Depende de Fase 2 (DTOs) y de las entidades de spec 001. Se usa MapStruct (`@Mapper(componentModel = "spring")`, dependencia ya declarada).
 
-- [ ] **T3.1** Crear `ReservaMapper` en `mappers/`
+- [x] **T3.1** Crear `ReservaMapper` en `mappers/`
   - `Reserva` ↔ `ReservaResponse`; `ReservaRequest` → `Reserva` (campos escalares + `fechaReserva`)
   - La resolución de `usuario` la fija `ReservaService` (no el mapper, Art. 2)
   - Hecho: `./mvnw compile` genera la implementación sin errores
 
-- [ ] **T3.2** Crear `UsuarioMapper` en `mappers/`
+- [x] **T3.2** Crear `UsuarioMapper` en `mappers/`
   - `Usuario` ↔ `UsuarioResponse`; `UsuarioRequest` → `Usuario`
   - Hecho: compila con implementación generada
 
-- [ ] **T3.3** Crear `MensajeMapper` en `mappers/`
+- [x] **T3.3** Crear `MensajeMapper` en `mappers/`
   - `Mensaje` ↔ `MensajeResponse`
   - Hecho: compila con implementación generada
 
-- [ ] **T3.4** Crear `AuditoriaMapper` en `mappers/`
+- [x] **T3.4** Crear `AuditoriaMapper` en `mappers/`
   - `Auditoria` ↔ `AuditoriaResponse` (mapear `admin → admin.nombreUsuario | null`)
   - Hecho: compila con implementación generada
 
-- [ ] **T3.5** Crear `ConfiguracionMapper` en `mappers/`
+- [x] **T3.5** Crear `ConfiguracionMapper` en `mappers/`
   - `Configuracion` ↔ `ConfiguracionResponse`; `Configuracion` ↔ `ConfiguracionRequest`
   - Hecho: compila con implementación generada
 
-- [ ] **T3.6** Crear `DisponibilidadMapper` en `mappers/`
+- [x] **T3.6** Crear `DisponibilidadMapper` en `mappers/`
   - `Reserva` → `FechasOcupadas` (únicamente los 2 campos de RF-1, privacidad RNF)
   - Hecho: compila con implementación generada
 
