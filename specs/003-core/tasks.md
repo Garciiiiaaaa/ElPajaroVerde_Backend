@@ -138,28 +138,28 @@ Depende de Fase 2 (DTOs) y de las entidades de spec 001. Se usa MapStruct (`@Map
 
 Depende de las entidades existentes (spec 001). Independientes entre sí.
 
-- [ ] **T4.1** Ampliar `ReservaRepository`
+- [x] **T4.1** Ampliar `ReservaRepository`
   - Extender `JpaSpecificationExecutor<Reserva>` (filtros RF-21)
   - Añadir `List<Reserva> findByEstadoInAndFechaSalidaGreaterThanEqual(List<ReservaEstado> estados, LocalDate fecha)` (RF-1)
   - Añadir variante del solapamiento existente con exclusión: `...AndIdNot(Long id)` (RF-13 modificación, RF-18)
   - Hecho: compila; el método existente de solapamiento se conserva
 
-- [ ] **T4.2** Ampliar `UsuarioRepository`
+- [x] **T4.2** Ampliar `UsuarioRepository`
   - Extender `JpaSpecificationExecutor<Usuario>` (RF-28)
   - Añadir `Optional<Usuario> findByCorreoIgnoreCase(String correo)` (RF-4, RF-5, RF-8, RF-23, RF-25)
   - Eliminar `findByCorreo` y actualizar cualquier referencia (grep previo)
   - Hecho: compila; no queda ninguna referencia a `findByCorreo`
 
-- [ ] **T4.3** Ampliar `MensajeRepository`
+- [x] **T4.3** Ampliar `MensajeRepository`
   - Extender `JpaSpecificationExecutor<Mensaje>` (filtros `usuarioId` + rango sobre `fechaMensaje`, RF-29)
   - El método `findByUsuarioIdOrderByFechaMensajeAsc` existente se conserva
   - Hecho: compila
 
-- [ ] **T4.4** Ampliar `AuditoriaRepository`
+- [x] **T4.4** Ampliar `AuditoriaRepository`
   - Extender `JpaSpecificationExecutor<Auditoria>` (filtros `entidadAfectada`, `entidadId`, `tipoAccion`, rango, RF-33)
   - Hecho: compila
 
-- [ ] **T4.5** Ampliar `ConfiguracionRepository`
+- [x] **T4.5** Ampliar `ConfiguracionRepository`
   - Añadir `@Lock(PESSIMISTIC_WRITE)` en `@Query("SELECT c FROM Configuracion c WHERE c.id = 1")` → `Optional<Configuracion> findByIdWithLock()` (RF-13 concurrencia)
   - Hecho: compila; la query funciona en MySQL y H2 (tests)
 
@@ -167,12 +167,12 @@ Depende de las entidades existentes (spec 001). Independientes entre sí.
 
 Depende de Fase 3 (T3.4) y Fase 4 (T4.4). Base para el resto de services.
 
-- [ ] **T5.1** Crear `AutenticadoActual` en `services/`
+- [x] **T5.1** Crear `AutenticadoActual` en `services/`
   - Lee `SecurityContextHolder`, extrae `nombre_usuario` y delega en `IAuthenticationService.buscarAdministradorPorNombre(...)` → `Optional<Administrador>`
   - Sirve para cumplir Art. 1 (los services, no controllers ni filtros, resuelven el dato de negocio)
   - Hecho: compila; devuelve `Optional.empty()` cuando no hay admin autenticado
 
-- [ ] **T5.2** Crear `IAuditoriaService` + `AuditoriaService` en `services/` (y `services/interfaces/`)
+- [x] **T5.2** Crear `IAuditoriaService` + `AuditoriaService` en `services/` (y `services/interfaces/`)
   - Depende de: T5.1, T4.4, T3.4
   - `registrar(AuditoriaTipoAccion, String entidadAfectada, Long entidadId)`: `descripcion` con la plantilla `<Acción> de <entidad> (id=<entidadId>)` (p. ej. "Reserva creada (id=3)"), `admin` desde `AutenticadoActual` (nullable), `fecha=now`
   - `listar(entidadAfectada, entidadId, tipoAccion, fechaDesde, fechaHasta, Pageable) → Page<AuditoriaResponse>` con Specification y orden `fecha` DESC (RF-33)
