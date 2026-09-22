@@ -31,77 +31,77 @@ Sin dependencias. Base para DTOs, services y manejo de errores.
 
 Depende de Fase 1 (T1.1 para `ReservaRequest`). Resto independientes entre sí.
 
-- [ ] **T2.1** Crear `FechasOcupadas` en `dtos/` (output, solo lectura)
+- [x] **T2.1** Crear `FechasOcupadas` en `dtos/` (output, solo lectura)
   - Campos: `fechaEntrada` (LocalDate), `fechaSalida` (LocalDate)
   - Hecho: compila
 
-- [ ] **T2.2** Crear `FechasOcupadasResponse` en `dtos/` (output, solo lectura)
+- [x] **T2.2** Crear `FechasOcupadasResponse` en `dtos/` (output, solo lectura)
   - Campo: `ocupadas` (`List<FechasOcupadas>`)
   - Hecho: compila
 
-- [ ] **T2.3** Crear `MensajeRequest` en `dtos/` (input, RF-3, RF-38)
+- [x] **T2.3** Crear `MensajeRequest` en `dtos/` (input, RF-3, RF-38)
   - Campos: `correo`, `mensaje`, `nombre`, `apellido`, `telefono`, `asunto`
   - Bean Validation: `@NotBlank @Email` en `correo`; `@NotBlank` en `mensaje`; resto opcional (RF-3)
   - Hecho: compila; validates parecen correctas
 
-- [ ] **T2.4** Crear `MensajeResponse` en `dtos/` (output, RF-6, RF-29)
+- [x] **T2.4** Crear `MensajeResponse` en `dtos/` (output, RF-6, RF-29)
   - Campos: `id`, `fechaMensaje`, `asunto`, `mensaje`, `remitente` (MensajeRemitente), `usuario` (UsuarioResponse)
   - Hecho: compila
 
-- [ ] **T2.5** Crear `ReservaRequest` en `dtos/` (input, RF-8 a RF-14, RF-38)
+- [x] **T2.5** Crear `ReservaRequest` en `dtos/` (input, RF-8 a RF-14, RF-38)
   - Depende de: T1.1
   - Campos: `fechaEntrada`, `fechaSalida`, `numeroHuespedes`, `estado` (opcional), y **una** de: `usuarioId`, `usuario` inline, o ninguno
   - Clase anidada `UsuarioReserva` con `nombre`, `apellido`, `correo`, `telefono`; `@NotBlank` en nombre/apellido/correo y `@Email` en correo (RF-22)
   - Bean Validation: `@NotNull` en fechas; `@NotNull @Min(1) @Max(value = ReservaReglas.MAX_HUESPEDES)` en `numeroHuespedes` (RF-12)
   - Hecho: compila con la constante de negocio referenciada
 
-- [ ] **T2.6** Crear `ReservaUpdateRequest` en `dtos/` (input, RF-15, RF-16, RF-38)
+- [x] **T2.6** Crear `ReservaUpdateRequest` en `dtos/` (input, RF-15, RF-16, RF-38)
   - Depende de: T1.1, T2.5 (reutiliza `ReservaRequest.UsuarioReserva`)
   - Campos: `fechaEntrada`, `fechaSalida`, `numeroHuespedes`, `usuarioId`, `usuario` (inline o `null` para desvincular)
   - Deserializador de presencia para `usuario`: distingue campo ausente de `usuario:null` (semántica en las reglas de consistencia del plan)
   - Mismas anotaciones de Bean Validation que `ReservaRequest`, solo cuando el campo viene presente
   - Hecho: con Jackson, el DTO expone si `usuario` vino ausente, `null` u objeto
 
-- [ ] **T2.7** Crear `ReservaResponse` en `dtos/` (output, solo lectura)
+- [x] **T2.7** Crear `ReservaResponse` en `dtos/` (output, solo lectura)
   - Campos: `id`, `fechaReserva`, `fechaEntrada`, `fechaSalida`, `numeroHuespedes`, `precio`, `estado`, `visible`, `usuario` (UsuarioResponse|null)
   - Hecho: compila
 
-- [ ] **T2.8** Crear `ReservaCambioEstadoRequest` en `dtos/` (input, RF-17, RF-18)
+- [x] **T2.8** Crear `ReservaCambioEstadoRequest` en `dtos/` (input, RF-17, RF-18)
   - Campo: `estado` (ReservaEstado) con `@NotNull`
   - Hecho: compila
 
-- [ ] **T2.9** Crear `ReservaVisibleRequest` en `dtos/` (input, RF-19, RF-20)
+- [x] **T2.9** Crear `ReservaVisibleRequest` en `dtos/` (input, RF-19, RF-20)
   - Campo: `visible` (boolean) con `@NotNull`
   - Hecho: compila
 
-- [ ] **T2.10** Crear `UsuarioRequest` en `dtos/` (input, RF-22, RF-23, RF-38)
+- [x] **T2.10** Crear `UsuarioRequest` en `dtos/` (input, RF-22, RF-23, RF-38)
   - Campos: `nombre`, `apellido`, `correo`, `telefono`
   - Bean Validation: `@NotBlank` en nombre/apellido/correo; `@Email` en correo
   - Hecho: compila
 
-- [ ] **T2.11** Crear `UsuarioUpdateRequest` en `dtos/` (input, RF-24, RF-25, RF-38)
+- [x] **T2.11** Crear `UsuarioUpdateRequest` en `dtos/` (input, RF-24, RF-25, RF-38)
   - Campos: `nombre`, `apellido`, `correo`, `telefono` (todos opcionales, PATCH parcial)
   - Bean Validation: `@Email` en correo si viene presente
   - Hecho: compila
 
-- [ ] **T2.12** Crear `UsuarioResponse` en `dtos/` (output, solo lectura)
+- [x] **T2.12** Crear `UsuarioResponse` en `dtos/` (output, solo lectura)
   - Campos: `id`, `nombre`, `apellido`, `correo`, `telefono`, `visible`
   - Hecho: compila
 
-- [ ] **T2.13** Crear `UsuarioVisibleRequest` en `dtos/` (input, RF-26, RF-38)
+- [x] **T2.13** Crear `UsuarioVisibleRequest` en `dtos/` (input, RF-26, RF-38)
   - Campo: `visible` (boolean) con `@NotNull`
   - Hecho: compila
 
-- [ ] **T2.14** Crear `AuditoriaResponse` en `dtos/` (output, solo lectura)
+- [x] **T2.14** Crear `AuditoriaResponse` en `dtos/` (output, solo lectura)
   - Campos: `id`, `fecha`, `admin` (nombreUsuario|null), `entidadAfectada`, `entidadId`, `tipoAccion` (AuditoriaTipoAccion), `descripcion`
   - Hecho: compila; el campo `admin` es solo el nombre de usuario, no la entidad JPA (Art. 2)
 
-- [ ] **T2.15** Crear `ConfiguracionRequest` en `dtos/` (input, RF-35, RF-36, RF-38)
+- [x] **T2.15** Crear `ConfiguracionRequest` en `dtos/` (input, RF-35, RF-36, RF-38)
   - Campos: `precioNoche` (BigDecimal), `estanciaMinima` (int), `estanciaMaxima` (int), todos opcionales (PATCH parcial)
   - Bean Validation: `@DecimalMin("0.01")` en precioNoche y `@Min(1)` en min/max, solo cuando el campo viene presente
   - Hecho: compila
 
-- [ ] **T2.16** Crear `ConfiguracionResponse` en `dtos/` (output, solo lectura)
+- [x] **T2.16** Crear `ConfiguracionResponse` en `dtos/` (output, solo lectura)
   - Campos: `id`, `precioNoche`, `estanciaMinima`, `estanciaMaxima`
   - Hecho: compila
 
